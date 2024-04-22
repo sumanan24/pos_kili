@@ -10,29 +10,31 @@ check_login();
 if (isset($_POST['addCustomer'])) {
   //Prevent Posting Blank Values
   
-  if (empty($_POST["customer_phoneno"]) || empty($_POST["customer_name"]) || empty($_POST['customer_email']) || empty($_POST['customer_password'])) {
+  if (empty($_POST["customer_phoneno"]) || empty($_POST["customer_name"]) || empty($_POST['customer_email']) || empty($_POST['customer_address'])) {
     $err = "Blank Values Not Accepted";
   } else {
     $customer_name = $_POST['customer_name'];
     $customer_phoneno = $_POST['customer_phoneno'];
     $customer_email = $_POST['customer_email'];
-    $customer_password = sha1(md5($_POST['customer_password'])); //Hash This 
+    $customer_address = $_POST['customer_address'];
     $customer_id = $_POST['customer_id'];
 
     //Insert Captured information to a database table
-    $postQuery = "INSERT INTO rpos_customers (customer_id, customer_name, customer_phoneno, customer_email, customer_password) VALUES(?,?,?,?,?)";
+    $postQuery = "INSERT INTO rpos_customers (customer_id, customer_name, customer_phoneno, customer_email, customer_address) VALUES(?,?,?,?,?)";
     $postStmt = $mysqli->prepare($postQuery);
     
     //bind paramaters
-    $rc = $postStmt->bind_param('sssss', $customer_id, $customer_name, $customer_phoneno, $customer_email, $customer_password);
+    $rc = $postStmt->bind_param('sssss', $customer_id, $customer_name, $customer_phoneno, $customer_email, $customer_address);
     $postStmt->execute();
     
     //declare a varible which will be passed to alert function
     if ($postStmt) {
-      $success = "Customer Added" && header("refresh:1; url=customes.php");
-    } else {
+      $success = "Customer Added";
+      header("refresh:2; url=customes.php");
+  } else {
       $err = "Please Try Again Or Try Later";
-    }
+  }
+  
   }
 }
 
@@ -75,24 +77,24 @@ require_once('partials/_head.php');
               <form method="POST">
                 <div class="form-row">
                   <div class="col-md-6">
-                    <label>Customer Name</label>
+                    <label>Full Name</label>
                     <input type="text" name="customer_name" class="form-control">
                     <input type="hidden" name="customer_id" value="<?php echo $cus_id; ?>" class="form-control">
                   </div>
                   <div class="col-md-6">
-                    <label>Customer Phone Number</label>
+                    <label>Phone Number</label>
                     <input type="text" name="customer_phoneno" class="form-control" value="">
                   </div>
                 </div>
                 <hr>
                 <div class="form-row">
                   <div class="col-md-6">
-                    <label>Customer Email</label>
+                    <label>Email</label>
                     <input type="email" name="customer_email" class="form-control" value="">
                   </div>
                   <div class="col-md-6">
-                    <label>Customer Password</label>
-                    <input type="password" name="customer_password" class="form-control" value="">
+                    <label>Address</label>
+                    <input type="address" name="customer_address" class="form-control" value="">
                   </div>
                 </div>
                 <br>

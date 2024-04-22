@@ -12,7 +12,7 @@ if (isset($_GET['delete'])) {
   $stmt->execute();
   $stmt->close();
   if ($stmt) {
-    $success = "Deleted" && header("refresh:1; url=hrm.php");
+    $success = "Deleted" && header("refresh:1; url=recharge.php");
   } else {
     $err = "Try Again Later";
   }
@@ -46,15 +46,19 @@ require_once('partials/_head.php');
         <div class="col">
           <div class="card shadow">
             <div class="card-header border-0">
-              <a href="add_staff.php" class="btn btn-outline-success"><i class="fas fa-user-plus"></i>Add New Staff</a>
+              <a href="add_recharge.php" class="btn btn-outline-success"><i class="fas fa-user-plus"></i>Add Recharge</a>
             </div>
             <div class="table-responsive">
               <table class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                    <th scope="col">Staff Number</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">Recharge ID</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Phone number</th>
+                    <th scope="col">Reload Type</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>                   
+                    <th scope="col">Status</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
@@ -67,11 +71,15 @@ require_once('partials/_head.php');
                   while ($staff = $res->fetch_object()) {
                   ?>
                     <tr>
-                      <td><?php echo $staff->staff_number; ?></td>
-                      <td><?php echo $staff->staff_name; ?></td>
-                      <td><?php echo $staff->staff_email; ?></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                       <td>
-                        <a href="hrm.php?delete=<?php echo $staff->staff_id; ?>">
+                        <a href="recharge.php?delete=<?php echo $staff->staff_id; ?>">
                           <button class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i>
                             Delete

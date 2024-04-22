@@ -24,7 +24,7 @@ if (isset($_POST['addStaff'])) {
     $postStmt->execute();
     //declare a varible which will be passed to alert function
     if ($postStmt) {
-      $success = "Staff Added" && header("refresh:1; url=hrm.php");
+      $success = "Staff Added" && header("refresh:1; url=recharge.php");
     } else {
       $err = "Please Try Again Or Try Later";
     }
@@ -46,7 +46,7 @@ require_once('partials/_head.php');
     ?>
     <!-- Header -->
     <div style="background-image: url(assets/img/theme/restro00.jpg); background-size: cover;" class="header  pb-8 pt-5 pt-md-8">
-    <span class="mask bg-gradient-dark opacity-8"></span>
+      <span class="mask bg-gradient-dark opacity-8"></span>
       <div class="container-fluid">
         <div class="header-body">
         </div>
@@ -64,30 +64,59 @@ require_once('partials/_head.php');
             <div class="card-body">
               <form method="POST">
                 <div class="form-row">
-                  <div class="col-md-6">
-                    <label>Staff Number</label>
-                    <input type="text" name="staff_number" class="form-control" value="<?php echo $alpha; ?>-<?php echo $beta; ?>">
+                  <div class="col-md-4">
+                    <input type="text" name="staff_number" placeholder="Phone Number" class="form-control" value="">
                   </div>
+                  <div class="col-md-2">
+                    <input type="submit" name="search" value="Search" class="btn btn-secondary" value="">
+                  </div>
+
                   <div class="col-md-6">
-                    <label>Staff Name</label>
-                    <input type="text" name="staff_name" class="form-control" value="">
+                      <input type="text" name="current_date" id="current_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
                   </div>
                 </div>
                 <hr>
                 <div class="form-row">
+
                   <div class="col-md-6">
-                    <label>Staff Email</label>
-                    <input type="email" name="staff_email" class="form-control" value="">
+                    <label>Customer Name</label>
+                    <input type="text" name="staff_name" class="form-control" value="">
                   </div>
                   <div class="col-md-6">
-                    <label>Staff Password</label>
-                    <input type="password" name="staff_password" class="form-control" value="">
+                    <label>Recharge ID</label>
+                    <input type="text" name="staff_number" class="form-control" value="<?php echo $alpha; ?>-<?php echo $beta; ?>">
                   </div>
                 </div>
                 <br>
                 <div class="form-row">
                   <div class="col-md-6">
-                    <input type="submit" name="addStaff" value="Add Staff" class="btn btn-success" value="">
+                    <label>Reload Type</label> <br>
+                    <select name="reload" id="reload" class="form-control">
+                      <option value="mobile">Mobile</option>
+                      <option value="dishtv">Dish TV</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <label>Amount</label>
+                    <input type="text" name="amount" class="form-control" value="">
+                  </div>
+                </div>
+                <br>
+                <div class="form-row">
+
+                  <div class="col-md-6">
+                    <label>Status</label> <br>
+                    <select name="status" id="status" class="form-control">
+                      <option value="success">Success</option>
+                      <option value="pending">Pending</option>
+                      <option value="fail">Fail</option>
+                    </select>
+                  </div>
+                </div>
+                <br>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <input type="submit" name="addStaff" value="Add Recharge" class="btn btn-success" value="">
                   </div>
                 </div>
               </form>

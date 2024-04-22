@@ -88,13 +88,13 @@ while ($admin = $res->fetch_object()) {
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="hrm.php">
-              <i class="fas fa-user-tie text-primary"></i> Recharge
+            <a class="nav-link" href="customes.php">
+              <i class="fas fa-users text-primary"></i> Customers
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="customes.php">
-              <i class="fas fa-users text-primary"></i> Customers
+            <a class="nav-link" href="recharge.php">
+              <i class="fa fa-mobile text-primary"></i> Recharge
             </a>
           </li>
           <li class="nav-item">

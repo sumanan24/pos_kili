@@ -12,7 +12,8 @@ if (isset($_GET['delete'])) {
   $stmt->execute();
   $stmt->close();
   if ($stmt) {
-    $success = "Deleted" && header("refresh:1; url=customes.php");
+    $success = "Customer Deleted";
+    header("refresh:2; url=customes.php");
   } else {
     $err = "Try Again Later";
   }
@@ -33,7 +34,7 @@ require_once('partials/_head.php');
     ?>
     <!-- Header -->
     <div style="background-image: url(assets/img/theme/restro00.jpg); background-size: cover;" class="header  pb-8 pt-5 pt-md-8">
-    <span class="mask bg-gradient-dark opacity-8"></span>
+      <span class="mask bg-gradient-dark opacity-8"></span>
       <div class="container-fluid">
         <div class="header-body">
         </div>
@@ -58,6 +59,7 @@ require_once('partials/_head.php');
                     <th scope="col">Full Name</th>
                     <th scope="col">Contact Number</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Address</th>
                     <th scope="col">Actions</th>
                   </tr>
                 </thead>
@@ -73,13 +75,15 @@ require_once('partials/_head.php');
                       <td><?php echo $cust->customer_name; ?></td>
                       <td><?php echo $cust->customer_phoneno; ?></td>
                       <td><?php echo $cust->customer_email; ?></td>
+                      <td><?php echo $cust->customer_address; ?></td>
                       <td>
-                        <a href="customes.php?delete=<?php echo $cust->customer_id; ?>">
+                        <a href="customes.php?delete=<?php echo $cust->customer_id; ?>" onclick="return confirm('Are you sure you want to delete this data?');">
                           <button class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i>
                             Delete
                           </button>
                         </a>
+
 
                         <a href="update_customer.php?update=<?php echo $cust->customer_id; ?>">
                           <button class="btn btn-sm btn-primary">

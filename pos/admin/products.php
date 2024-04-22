@@ -5,17 +5,20 @@ include('config/checklogin.php');
 check_login();
 if (isset($_GET['delete'])) {
   $id = intval($_GET['delete']);
-  $adn = "DELETE FROM  rpos_products  WHERE  prod_id = ?";
+  $adn = "DELETE FROM rpos_products WHERE prod_id = ?";
   $stmt = $mysqli->prepare($adn);
-  $stmt->bind_param('s', $id);
-  $stmt->execute();
-  $stmt->close();
   if ($stmt) {
-    $success = "Deleted" && header("refresh:1; url=products.php");
-  } else {
-    $err = "Try Again Later";
+    $stmt->bind_param('i', $id);
+    $stmt->execute();
+    if ($stmt) {
+      $success = "Deleted" && header("refresh:1; url=recharge.php");
+    } else {
+      $err = "Try Again Later";
+    }
+    $stmt->close();
   }
 }
+
 require_once('partials/_head.php');
 ?>
 
@@ -32,7 +35,7 @@ require_once('partials/_head.php');
     ?>
     <!-- Header -->
     <div style="background-image: url(assets/img/theme/restro00.jpg); background-size: cover;" class="header  pb-8 pt-5 pt-md-8">
-    <span class="mask bg-gradient-dark opacity-8"></span>
+      <span class="mask bg-gradient-dark opacity-8"></span>
       <div class="container-fluid">
         <div class="header-body">
         </div>
@@ -90,6 +93,7 @@ require_once('partials/_head.php');
                             Delete
                           </button>
                         </a>
+
 
                         <a href="update_product.php?update=<?php echo $prod->prod_id; ?>">
                           <button class="btn btn-sm btn-primary">
