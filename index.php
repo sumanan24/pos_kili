@@ -70,14 +70,12 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                POS Management System
+            Mobile Shop Management System
             </div>
 
             <div class="links">
 			<!-- For more projects: Visit NetGO+  -->
                 <a href="pos/admin/">Admin Log In</a>
-                <a href="pos/cashier/">Cashier Log In</a>
-                <a href="pos/customer">Customer Log In</a>
             </div>
         </div>
     </div>

@@ -1,8 +1,8 @@
 
 <?php
     $dbuser="root";
-    $dbpass="1234";
+    $dbpass="";
     $host="localhost";
-    $db="rposystem";
+    $db="pos";
     $mysqli=new mysqli($host,$dbuser, $dbpass, $db);
 ?>
