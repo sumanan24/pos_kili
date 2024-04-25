@@ -6,21 +6,28 @@ include('config/code-generator.php');
 
 check_login();
 //Add Staff
-if (isset($_POST['addStaff'])) {
+if (isset($_POST['addrecharge'])) {
   //Prevent Posting Blank Values
-  if (empty($_POST["staff_number"]) || empty($_POST["staff_name"]) || empty($_POST['staff_email']) || empty($_POST['staff_password'])) {
+  if (
+    empty($_POST["phone_number"]) || empty($_POST["date"]) || empty($_POST['customer_name']) || empty($_POST['recharge_id'])
+    || empty($_POST["reload"]) || empty($_POST["amount"]) || empty($_POST["statuss"])
+  ) {
     $err = "Blank Values Not Accepted";
   } else {
-    $staff_number = $_POST['staff_number'];
-    $staff_name = $_POST['staff_name'];
-    $staff_email = $_POST['staff_email'];
-    $staff_password = sha1(md5($_POST['staff_password']));
+    $phone_number = $_POST['phone_number'];
+    $date  = $_POST['date'];
+    $customer_name = $_POST['customer_name'];
+    $recharge_id = $_POST['recharge_id'];
+    $reload = $_POST['reload'];
+    $amount = $_POST['amount'];
+    $statuss = $_POST['statuss'];
+
 
     //Insert Captured information to a database table
-    $postQuery = "INSERT INTO rpos_staff (staff_number, staff_name, staff_email, staff_password) VALUES(?,?,?,?)";
+    $postQuery = "INSERT INTO rpos_recharge (recharge_id, phone_number, date, customer_name, reload,amount,statuss) VALUES(?,?,?,?,?,?,?)";
     $postStmt = $mysqli->prepare($postQuery);
     //bind paramaters
-    $rc = $postStmt->bind_param('ssss', $staff_number, $staff_name, $staff_email, $staff_password);
+    $rc = $postStmt->bind_param('sssssss', $recharge_id, $phone_number, $date, $customer_name, $reload, $amount, $statuss);
     $postStmt->execute();
     //declare a varible which will be passed to alert function
     if ($postStmt) {
@@ -30,6 +37,34 @@ if (isset($_POST['addStaff'])) {
     }
   }
 }
+
+
+if (isset($_POST['search'])) {
+  $phone_number = $_POST['phone_number'];
+  $search_query = "SELECT rpos_customers.customer_name
+                     FROM rpos_recharge
+                     INNER JOIN rpos_customers ON rpos_recharge.phone_number = rpos_customers.customer_phoneno
+                     WHERE rpos_recharge.phone_number = ?";
+  $search_stmt = $mysqli->prepare($search_query);
+  if ($search_stmt) {
+    $search_stmt->bind_param('s', $phone_number); // Change $search_phone_number to $phone_number
+    $search_stmt->execute();
+    $search_stmt->bind_result($customer_name);
+    $search_stmt->fetch();
+    $search_stmt->close();
+
+    if (!empty($customer_name)) {
+      echo "Customer Name: $customer_name";
+    } else {
+      echo "Customer not found.";
+    }
+  } else {
+    echo "Error executing search query.";
+  }
+}
+
+
+
 require_once('partials/_head.php');
 ?>
 
@@ -65,26 +100,25 @@ require_once('partials/_head.php');
               <form method="POST">
                 <div class="form-row">
                   <div class="col-md-4">
-                    <input type="text" name="staff_number" placeholder="Phone Number" class="form-control" value="">
+                    <input type="text" name="phone_number" placeholder="Phone Number" class="form-control" value="">
                   </div>
                   <div class="col-md-2">
                     <input type="submit" name="search" value="Search" class="btn btn-secondary" value="">
                   </div>
 
                   <div class="col-md-6">
-                      <input type="text" name="current_date" id="current_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
+                    <input type="text" name="date" id="current_date" class="form-control" value="<?php echo date('Y-m-d'); ?>" readonly>
                   </div>
                 </div>
                 <hr>
                 <div class="form-row">
-
                   <div class="col-md-6">
                     <label>Customer Name</label>
-                    <input type="text" name="staff_name" class="form-control" value="">
+                    <input type="text" name="customer_name" class="form-control" value="">
                   </div>
                   <div class="col-md-6">
                     <label>Recharge ID</label>
-                    <input type="text" name="staff_number" class="form-control" value="<?php echo $alpha; ?>-<?php echo $beta; ?>">
+                    <input type="text" name="recharge_id" class="form-control" value="<?php echo $alpha; ?>-<?php echo $beta; ?>">
                   </div>
                 </div>
                 <br>
@@ -106,7 +140,7 @@ require_once('partials/_head.php');
 
                   <div class="col-md-6">
                     <label>Status</label> <br>
-                    <select name="status" id="status" class="form-control">
+                    <select name="statuss" id="status" class="form-control">
                       <option value="success">Success</option>
                       <option value="pending">Pending</option>
                       <option value="fail">Fail</option>
@@ -116,7 +150,7 @@ require_once('partials/_head.php');
                 <br>
                 <div class="form-row">
                   <div class="col-md-6">
-                    <input type="submit" name="addStaff" value="Add Recharge" class="btn btn-success" value="">
+                    <input type="submit" name="addrecharge" value="Add Recharge" class="btn btn-success" value="">
                   </div>
                 </div>
               </form>

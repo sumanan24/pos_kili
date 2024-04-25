@@ -14,9 +14,3 @@ Password: 123456
 - <?php echo date('Y'); ?> 
 
 
-  <td><?php echo $staff->recharge_id; ?></td>
-                      <td><?php echo $staff->customer_name; ?></td>
-                      <td><?php echo $staff->phone_number; ?></td>
-                      <td><?php echo $staff->Reload_type; ?></td>
-                      <td><?php echo $staff->amount; ?></td>
-                      <td><?php echo $staff->status; ?></td>
