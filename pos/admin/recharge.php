@@ -5,14 +5,15 @@ include('config/checklogin.php');
 check_login();
 //Delete Staff
 if (isset($_GET['delete'])) {
-  $id = intval($_GET['delete']);
+  $id = $_GET['delete'];
   $adn = "DELETE FROM  rpos_recharge  WHERE  recharge_id = ?";
   $stmt = $mysqli->prepare($adn);
-  $stmt->bind_param('i', $id);
+  $stmt->bind_param('s', $id);
   $stmt->execute();
   $stmt->close();
   if ($stmt) {
-    $success = "Deleted" && header("refresh:1; url=recharge.php");
+    $success = "Recharge Deleted";
+    header("refresh:2; url=recharge.php");
   } else {
     $err = "Try Again Later";
   }
@@ -78,9 +79,9 @@ require_once('partials/_head.php');
                       <td><?php echo $recharge->amount; ?></td>
                       <td><?php echo $recharge->date; ?></td>
                       <td><?php echo $recharge->statuss; ?></td>
-                      
                       <td>
-                        <a href="recharge.php?delete=<?php echo $recharge->recharge_id; ?>">
+
+                        <a href="recharge.php?delete=<?php echo $recharge->recharge_id; ?>" onclick="return confirm('Are you sure you want to delete this data?');">
                           <button class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i>
                             Delete

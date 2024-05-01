@@ -27,10 +27,11 @@ if (isset($_POST['make'])) {
     $postStmt->execute();
     //declare a varible which will be passed to alert function
     if ($postStmt) {
-      $success = "Order Submitted" && header("refresh:1; url=payments.php");
-    } else {
+      $success = "Order Submitted";
+      header("refresh:2; url=payments.php");
+  } else {
       $err = "Please Try Again Or Try Later";
-    }
+  }
   }
 }
 require_once('partials/_head.php');

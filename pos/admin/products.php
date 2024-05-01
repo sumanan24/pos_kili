@@ -11,7 +11,8 @@ if (isset($_GET['delete'])) {
     $stmt->bind_param('i', $id);
     $stmt->execute();
     if ($stmt) {
-      $success = "Deleted" && header("refresh:1; url=recharge.php");
+      $success = "Product Deleted";
+      header("refresh:2; url=products.php");
     } else {
       $err = "Try Again Later";
     }
@@ -87,7 +88,7 @@ require_once('partials/_head.php');
                       <td><?php echo $prod->prod_name; ?></td>
                       <td>$ <?php echo $prod->prod_price; ?></td>
                       <td>
-                        <a href="products.php?delete=<?php echo $prod->prod_id; ?>">
+                        <a href="products.php?delete=<?php echo $prod->prod_id; ?>" onclick="return confirm('Are you sure you want to delete this data?');">
                           <button class="btn btn-sm btn-danger">
                             <i class="fas fa-trash"></i>
                             Delete

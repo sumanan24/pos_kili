@@ -26,10 +26,11 @@ if (isset($_POST['addProduct'])) {
     $postStmt->execute();
     //declare a varible which will be passed to alert function
     if ($postStmt) {
-      $success = "Product Added" && header("refresh:2; url=products.php");
-    } else {
+      $success = "product Added";
+      header("refresh:2; url=products.php");
+  } else {
       $err = "Please Try Again Or Try Later";
-    }
+  }
   }
 }
 require_once('partials/_head.php');
