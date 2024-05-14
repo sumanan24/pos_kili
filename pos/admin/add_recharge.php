@@ -31,7 +31,8 @@ if (isset($_POST['addrecharge'])) {
     $postStmt->execute();
     //declare a varible which will be passed to alert function
     if ($postStmt) {
-      $success = "Staff Added" && header("refresh:1; url=recharge.php");
+      $success = "Recharge Added";
+      header("refresh:2; url=recharge.php");
     } else {
       $err = "Please Try Again Or Try Later";
     }
@@ -45,13 +46,13 @@ if (isset($_POST['search'])) {
                      FROM rpos_recharge
                      INNER JOIN rpos_customers ON rpos_recharge.phone_number = rpos_customers.customer_phoneno
                      WHERE rpos_recharge.phone_number = ?";
-  $search_stmt = $mysqli->prepare($search_query);
-  if ($search_stmt) {
-    $search_stmt->bind_param('s', $phone_number); // Change $search_phone_number to $phone_number
-    $search_stmt->execute();
-    $search_stmt->bind_result($customer_name);
-    $search_stmt->fetch();
-    $search_stmt->close();
+  $search = $mysqli->prepare($search_query);
+  if ($search) {
+    $search->bind_param('s', $phone_number); // Change $search_phone_number to $phone_number
+    $search->execute();
+    $search->bind_result($customer_name);
+    $search->fetch();
+    $search->close();
 
     if (!empty($customer_name)) {
       echo "Customer Name: $customer_name";
@@ -62,6 +63,51 @@ if (isset($_POST['search'])) {
     echo "Error executing search query.";
   }
 }
+
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
+//     $phone_number = $_POST['phone_number'];
+
+
+//     $search_query = "SELECT customer_name
+//                      FROM rpos_customers
+//                      WHERE customer_phoneno = ?";
+
+//     $search = $mysqli->prepare($search_query);
+
+//     if ($search) {
+
+//         $search->bind_param('s', $phone_number);
+//         $search->execute();
+
+//         $search->bind_result($customer_name);
+
+//         $search->fetch();
+
+//         if (!empty($customer_name)) {
+//             echo "Customer Name: $customer_name";
+//         } else {
+//             echo "Customer not found.";
+//         }
+//         $search->close();
+//     } else {
+//         echo "Error preparing query: " . $mysqli->error;
+//     }
+// }
+
+// if (isset($_POST['search'])) {
+//   $phone_number = $_POST['phone_number'];
+//   $query = "SELECT rpos_customers.customer_name
+//                   FROM rpos_recharge
+//                   INNER JOIN rpos_customers ON rpos_recharge.phone_number = rpos_customers.customer_phoneno
+//                   WHERE rpos_recharge.phone_number = ?";
+//   $query_run = mysqli_query($mysqli, $query);
+//   while ($row = mysqli_fetch_array($query_run)) {
+// ?>
+
+// <?php
+//   }
+// }
 
 
 
@@ -114,7 +160,7 @@ require_once('partials/_head.php');
                 <div class="form-row">
                   <div class="col-md-6">
                     <label>Customer Name</label>
-                    <input type="text" name="customer_name" class="form-control" value="">
+                    <input type="text" name="customer_name" class="form-control" value="<?php echo $customer_name['customer_name']; ?>">
                   </div>
                   <div class="col-md-6">
                     <label>Recharge ID</label>
