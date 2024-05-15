@@ -40,74 +40,19 @@ if (isset($_POST['addrecharge'])) {
 }
 
 
+$customer_namesea = null;
+$phone_number = null;
 if (isset($_POST['search'])) {
   $phone_number = $_POST['phone_number'];
-  $search_query = "SELECT rpos_customers.customer_name
-                     FROM rpos_recharge
-                     INNER JOIN rpos_customers ON rpos_recharge.phone_number = rpos_customers.customer_phoneno
-                     WHERE rpos_recharge.phone_number = ?";
-  $search = $mysqli->prepare($search_query);
-  if ($search) {
-    $search->bind_param('s', $phone_number); // Change $search_phone_number to $phone_number
-    $search->execute();
-    $search->bind_result($customer_name);
-    $search->fetch();
-    $search->close();
+  $query = "SELECT customer_name as cname
+                  FROM  rpos_customers 
+                  WHERE customer_phoneno = $phone_number";
+  $query_run = mysqli_query($mysqli, $query);
+  while ($row = mysqli_fetch_array($query_run)) {
 
-    if (!empty($customer_name)) {
-      echo "Customer Name: $customer_name";
-    } else {
-      echo "Customer not found.";
-    }
-  } else {
-    echo "Error executing search query.";
+    $customer_namesea = $row['cname'];
   }
 }
-
-
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['search'])) {
-//     $phone_number = $_POST['phone_number'];
-
-
-//     $search_query = "SELECT customer_name
-//                      FROM rpos_customers
-//                      WHERE customer_phoneno = ?";
-
-//     $search = $mysqli->prepare($search_query);
-
-//     if ($search) {
-
-//         $search->bind_param('s', $phone_number);
-//         $search->execute();
-
-//         $search->bind_result($customer_name);
-
-//         $search->fetch();
-
-//         if (!empty($customer_name)) {
-//             echo "Customer Name: $customer_name";
-//         } else {
-//             echo "Customer not found.";
-//         }
-//         $search->close();
-//     } else {
-//         echo "Error preparing query: " . $mysqli->error;
-//     }
-// }
-
-// if (isset($_POST['search'])) {
-//   $phone_number = $_POST['phone_number'];
-//   $query = "SELECT rpos_customers.customer_name
-//                   FROM rpos_recharge
-//                   INNER JOIN rpos_customers ON rpos_recharge.phone_number = rpos_customers.customer_phoneno
-//                   WHERE rpos_recharge.phone_number = ?";
-//   $query_run = mysqli_query($mysqli, $query);
-//   while ($row = mysqli_fetch_array($query_run)) {
-// ?>
-
-// <?php
-//   }
-// }
 
 
 
@@ -146,7 +91,7 @@ require_once('partials/_head.php');
               <form method="POST">
                 <div class="form-row">
                   <div class="col-md-4">
-                    <input type="text" name="phone_number" placeholder="Phone Number" class="form-control" value="">
+                    <input type="text" name="phone_number" placeholder="Phone Number" class="form-control" value="<?php echo $phone_number; ?>">
                   </div>
                   <div class="col-md-2">
                     <input type="submit" name="search" value="Search" class="btn btn-secondary" value="">
@@ -160,7 +105,7 @@ require_once('partials/_head.php');
                 <div class="form-row">
                   <div class="col-md-6">
                     <label>Customer Name</label>
-                    <input type="text" name="customer_name" class="form-control" value="<?php echo $customer_name['customer_name']; ?>">
+                    <input type="text" name="customer_name" class="form-control" value="<?php echo $customer_namesea; ?>">
                   </div>
                   <div class="col-md-6">
                     <label>Recharge ID</label>
